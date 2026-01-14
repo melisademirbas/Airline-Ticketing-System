@@ -1,0 +1,52 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Environment variables - NEVER commit these!
+.env
+.env.local
+.env.*.local
+**/.env
+**/.env.local
+# Allow .env.example files (exception must come before **/.env.*)
+!**/.env.example
+**/.env.*
+*.env
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs
+dist/
+build/
+.DS_Store
+
+# Data files (keep structure, ignore data)
+*.csv
+*.zip
+*.tar.gz
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# ML Models (optional - if you want to keep them private)
+ml-service/models/*.pkl
+ml-service/data/*.csv
+!ml-service/data/.gitkeep
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,16 @@
+{
+  "name": "airline-ticketing-system",
+  "version": "1.0.0",
+  "description": "Airline Ticketing System with Miles&Smiles integration",
+  "main": "index.js",
+  "scripts": {
+    "install-all": "npm install && cd api-gateway && npm install && cd ../flight-service && npm install && cd ../notification-service && npm install && cd ../frontend && npm install",
+    "start:gateway": "cd api-gateway && npm start",
+    "start:flight": "cd flight-service && npm start",
+    "start:notification": "cd notification-service && npm start",
+    "start:frontend": "cd frontend && npm start"
+  },
+  "keywords": ["airline", "ticketing", "microservices"],
+  "author": "",
+  "license": "ISC"
+}

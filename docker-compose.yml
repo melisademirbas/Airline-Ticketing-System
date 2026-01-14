@@ -1,0 +1,99 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:14-alpine
+    environment:
+      POSTGRES_DB: airline_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000
+      FLIGHT_SERVICE_URL: http://flight-service:3001
+      NOTIFICATION_SERVICE_URL: http://notification-service:3002
+      ML_SERVICE_URL: http://ml-service:3003
+    depends_on:
+      - flight-service
+      - notification-service
+      - ml-service
+
+  flight-service:
+    build: ./flight-service
+    ports:
+      - "3001:3001"
+    environment:
+      PORT: 3001
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: airline_db
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      REDIS_URL: redis://redis:6379
+      RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
+    depends_on:
+      - postgres
+      - redis
+      - rabbitmq
+
+  notification-service:
+    build: ./notification-service
+    ports:
+      - "3002:3002"
+    environment:
+      PORT: 3002
+      GMAIL_USER: ${GMAIL_USER:-your-email@gmail.com}
+      GMAIL_APP_PASSWORD: ${GMAIL_APP_PASSWORD:-your-app-password}
+      RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: airline_db
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+    depends_on:
+      - postgres
+      - rabbitmq
+
+  ml-service:
+    build: ./ml-service
+    ports:
+      - "3003:3003"
+    environment:
+      PORT: 3003
+    volumes:
+      - ./ml-service/data:/app/data
+      - ./ml-service/models:/app/models
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "80:80"
+    environment:
+      REACT_APP_API_URL: http://localhost:3000
+    depends_on:
+      - api-gateway
+
+volumes:
+  postgres_data:
