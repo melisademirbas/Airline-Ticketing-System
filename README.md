@@ -3,13 +3,12 @@
 A microservices-based airline ticketing system with Miles&Smiles loyalty program integration, machine learning price prediction, and cloud-ready architecture.
 
 # Local Development Environment
-- Frontend**: `http://localhost:3000`
-- API Gateway**: `http://localhost:3001`
-- Flight Service**: `http://localhost:3002`
-- Notification Service**: `http://localhost:3003`
+- Frontend: `http://localhost:3000`
+- API Gateway: `http://localhost:3001`
+- Flight Service: `http://localhost:3002`
+- Notification Service: `http://localhost:3003`
 - ML Service**: `http://localhost:3004`
 
----
 
 # Architecture & Design
 
@@ -17,7 +16,6 @@ A microservices-based airline ticketing system with Miles&Smiles loyalty program
 
 The system follows a "microservices architecture" pattern with the following components:
 
-```
 ┌─────────────┐
 │   Frontend  │ (React.js)
 │  Port 3000  │
@@ -44,28 +42,27 @@ The system follows a "microservices architecture" pattern with the following com
             │ Azure SQL DB  │
             │  (Database)    │
             └───────────────┘
-```
 
 # Design Decisions
 
-1. Microservices Architecture**: Each service is independently deployable and scalable
-2. API Gateway Pattern**: Single entry point for all client requests with authentication
-3. Message Queue (RabbitMQ)**: Asynchronous processing for welcome emails and notifications
-4. In-Memory Caching**: Fast response times for frequently accessed data (airport names, airline destinations)
-5. Machine Learning Integration**: Python-based ML service for dynamic price prediction
-6. IAM Integration**: AWS Cognito for centralized authentication and authorization
+1. Microservices Architecture: Each service is independently deployable and scalable
+2. API Gateway Pattern: Single entry point for all client requests with authentication
+3. Message Queue (RabbitMQ): Asynchronous processing for welcome emails and notifications
+4. In-Memory Caching: Fast response times for frequently accessed data (airport names, airline destinations)
+5. Machine Learning Integration: Python-based ML service for dynamic price prediction
+6. IAM Integration: AWS Cognito for centralized authentication and authorization
 
 # Technology Stack
 
 - Frontend**: React.js, React Router, Axios
 - Backend**: Node.js, Express.js
 - Database**: Azure SQL Database (Microsoft SQL Server)
-- Authentication**: AWS Cognito (IAM)
-- Message Queue**: RabbitMQ (CloudAMQP)
-- Caching**: In-memory cache (Map-based with TTL)
-- ML Service**: Python 3, scikit-learn, pandas, joblib
+- Authentication: AWS Cognito (IAM)
+- Message Queue: RabbitMQ (CloudAMQP)
+- Caching: In-memory cache (Map-based with TTL)
+- ML Service: Python 3, scikit-learn, pandas, joblib
 - Email: Nodemailer with Gmail SMTP
-- Cloud Scheduler**: Azure Logic Apps (configurable)
+- Cloud Scheduler: Azure Logic Apps (configurable)
 
 ---
 
@@ -162,13 +159,11 @@ The system follows a "microservices architecture" pattern with the following com
   - Implemented ±3 days date range for flexible dates
   - Added duration-based heuristic for direct flights (< 6 hours)
 
----
 
 # Data Models (ER Diagram)
 
 # Entity Relationship Diagram
 
-```
 ┌─────────────────┐
 │     flights     │
 ├─────────────────┤
@@ -245,7 +240,6 @@ The system follows a "microservices architecture" pattern with the following com
 │    email_sent   │
 │    created_at   │
 └─────────────────┘
-```
 
 # Table Descriptions
 
@@ -278,9 +272,7 @@ Stores all miles transactions (earned, spent, external).
   - `member_number` → `miles_smiles_members.member_number`
   - `flight_id` → `flights.id` (nullable, for external airline transactions)
 - Transaction Types: `FLIGHT_COMPLETED`, `POINTS_USED`, `EXTERNAL_AIRLINE`
-
----
-
+  
 # Setup Instructions
 
 # Prerequisites
@@ -322,7 +314,7 @@ cd ../frontend && npm install
 ```bash
 cd ml-service
 python3 train_model.py
-```
+
 
 6. Start services:
 ```bash
@@ -340,9 +332,7 @@ cd ml-service && node server.js
 
 # Terminal 5: Frontend
 cd frontend && npm start
-```
 
----
 
 # API Endpoints
 
@@ -361,7 +351,6 @@ cd frontend && npm start
 - `POST /api/v1/miles/add-external` - Add miles from external airline (API key protected)
 - `POST /api/v1/scheduler/nightly-tasks` - Run scheduled tasks (API key protected)
 
----
 
 # Testing
 
@@ -385,9 +374,7 @@ curl "http://localhost:3001/api/v1/flights/search?from=Bangalore&to=Chennai&depa
 curl -X POST http://localhost:3001/api/v1/flights/predict-price \
   -H "Content-Type: application/json" \
   -d '{"duration":"2h 30m","from_city":"Bangalore","to_city":"Chennai","flight_date":"2026-01-15"}'
-```
 
----
 
 # Cloud Services Used
 - Database: Azure SQL Database
