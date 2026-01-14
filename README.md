@@ -389,8 +389,6 @@ curl -X POST http://localhost:3001/api/v1/flights/predict-price \
 
 ---
 
-# Deployment
-
 # Cloud Services Used
 - Database: Azure SQL Database
 - IAM: AWS Cognito
@@ -398,11 +396,4 @@ curl -X POST http://localhost:3001/api/v1/flights/predict-price \
 - Scheduler: Azure Logic Apps (configurable)
 - Email: Gmail SMTP
 
-# Deployment Steps
-1. Deploy each service to Azure App Service (or AWS App Runner, GCP Cloud Run)
-2. Configure environment variables in cloud platform
-3. Set up cloud scheduler to call Notification Service endpoints
-4. Configure CORS and firewall rules
-5. Update frontend API URLs to production endpoints
 
----
